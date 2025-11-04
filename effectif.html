@@ -19,7 +19,7 @@
     img { display:block; max-width:100%; height:auto }
 
     /* Header */
-    .mpm-header { position: sticky; top:0; z-index: 50; background: var(--glass); backdrop-filter: blur(8px); border-bottom: 1px solid rgba(212,175,55,0.25); }
+    .mpm-header { position: sticky; top:0; z-index: 50; background: var(--glass); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); border-bottom: 1px solid rgba(212,175,55,0.25); }
     .wrap { max-width: 1200px; margin: 0 auto; padding: 14px 20px; display:flex; align-items:center; gap: 16px; }
     .mpm-left, .mpm-center, .mpm-right { display:flex; align-items:center; gap:10px; }
     .mpm-left { flex:1 }
@@ -32,7 +32,7 @@
     .social img { width:32px; height:32px }
 
     /* Nav */
-    nav.mpm-nav { background: var(--glass-strong); backdrop-filter: blur(6px); border-bottom: 1px solid rgba(212,175,55,0.2); }
+    nav.mpm-nav { background: var(--glass-strong); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); border-bottom: 1px solid rgba(212,175,55,0.2); }
     nav.mpm-nav ul { list-style:none; margin:0; padding:0; display:flex; gap:18px; align-items:center; max-width:1200px; margin-inline:auto; padding: 10px 20px; }
     nav.mpm-nav > ul > li > a { padding:8px 12px; border-radius:8px; }
     nav.mpm-nav > ul > li > a:hover { background: rgba(212,175,55,0.12); }
@@ -90,6 +90,7 @@
   <nav class="mpm-nav">
     <ul>
       <li><a href="accueil.html">Accueil</a></li>
+      <li><a href="histoire.html">Histoire</a></li>
       <li><a href="effectif.html">Effectif</a></li>
       <li><a href="recrutement.html">Recrutement</a></li>
       <li><a href="galerie.html">Galerie</a></li>
@@ -104,28 +105,28 @@
     <div class="team-grid" id="teamGrid">
       <!-- Ajouts demandés -->
       <article class="team-card">
-        <div class="team-thumb" style="background-image:url('https://i.postimg.cc/cCqWGy3g/2023-MBMP-218-A-001-035.jpg')"></div>
+        <div class="team-thumb" data-bg="https://i.postimg.cc/cCqWGy3g/2023-MBMP-218-A-001-035.jpg"></div>
         <div class="team-content">
           <div class="team-grade">Capitaine de Vaisseaux</div>
           <div class="team-name">PÉCLAT Nicolas</div>
         </div>
       </article>
       <article class="team-card">
-        <div class="team-thumb" style="background-image:url('https://i.postimg.cc/cCqWGy3g/2023-MBMP-218-A-001-035.jpg')"></div>
+        <div class="team-thumb" data-bg="https://i.postimg.cc/cCqWGy3g/2023-MBMP-218-A-001-035.jpg"></div>
         <div class="team-content">
           <div class="team-grade">Capitaine de Frégate</div>
           <div class="team-name">Julien TERMONTE</div>
         </div>
       </article>
       <article class="team-card">
-        <div class="team-thumb" style="background-image:url('https://i.postimg.cc/cCqWGy3g/2023-MBMP-218-A-001-035.jpg')"></div>
+        <div class="team-thumb" data-bg="https://i.postimg.cc/cCqWGy3g/2023-MBMP-218-A-001-035.jpg"></div>
         <div class="team-content">
           <div class="team-grade">Amiral</div>
           <div class="team-name">Tom Shelby</div>
         </div>
       </article>
       <article class="team-card">
-        <div class="team-thumb" style="background-image:url('https://i.postimg.cc/cCqWGy3g/2023-MBMP-218-A-001-035.jpg')"></div>
+        <div class="team-thumb" data-bg="https://i.postimg.cc/cCqWGy3g/2023-MBMP-218-A-001-035.jpg"></div>
         <div class="team-content">
           <div class="team-grade">Quartier Maitre 2nd Classe</div>
           <div class="team-name">Paul Leblanc</div>
@@ -134,8 +135,8 @@
     </div>
   </section>
 
-  <footer style="margin-top:32px;padding:24px;background:rgba(30,30,30,0.9);border-top:1px solid rgba(212,175,55,0.25);color:var(--muted)">
-    <div class="wrap" style="flex-wrap:wrap;justify-content:space-between">
+  <footer class="mpm-footer"> </footer>
+    <div class="wrap"></div>
       <div>© 2025 BMPM - FRRP | Tous droits réservés | Site fictif à but rôleplay - non affilié au BMPM officiel | site créé par Asuna</div>
       <div><a href="#">Accessibilité</a> · <a href="#">Plan du site</a> · <a href="#">Cookies</a></div>
     </div>
