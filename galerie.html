@@ -215,6 +215,22 @@
       }catch(e){ /* pass */ }
     }
 
+    // S'assure que la photo seed porte bien le titre demandé
+    function ensureSeedTitle(){
+      try{
+        let changed = false;
+        for(const it of items){
+          if(it.type === 'photo' && (it.url === SEED_PHOTO_URL || it.thumb === SEED_PHOTO_URL)){
+            if(it.title !== 'BMPM 2023'){
+              it.title = 'BMPM 2023';
+              changed = true;
+            }
+          }
+        }
+        if(changed) saveItems();
+      }catch(e){ /* pass */ }
+    }
+
     function toEmbedUrl(url){
       if(!url) return '';
       try{
@@ -343,6 +359,7 @@
     document.addEventListener('DOMContentLoaded', () => {
       loadItems();
       ensureSeedItem();
+      ensureSeedTitle();
       render();
       document.querySelectorAll('.chip').forEach(ch => ch.addEventListener('click', () => selectFilter(ch.dataset.filter)));
       const addBtn = document.getElementById('addBtn');
