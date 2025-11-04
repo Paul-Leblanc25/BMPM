@@ -55,17 +55,49 @@
     @media (max-width:480px){ nav.mpm-nav ul{gap:10px;padding:8px 12px} }
   </style>
   <script>
-    // Mode maintenance: actif par défaut, désactivable via hash (#off/#dev/#no-maintenance)
+    // Gestion unifiée du mode du site via hash et localStorage: #maintenance, #dev, #off
     (function(){
-      var hash = String(location.hash || '').toLowerCase();
-      var disable = (hash === '#off' || hash === '#dev' || hash === '#no-maintenance' || hash === '#');
-      if (disable) {
-        try { localStorage.setItem('maintenance', 'off'); } catch(e){}
-        // Redirection vers l’accueil quand on désactive
+      var hash = String(location.hash||'').toLowerCase();
+      var modeFromHash = (hash === '#maintenance') ? 'maintenance' : (hash === '#dev') ? 'dev' : (hash === '#off' || hash === '#') ? 'off' : null;
+      try {
+        if (modeFromHash) { localStorage.setItem('siteMode', modeFromHash); }
+      } catch(e){}
+      var current = 'maintenance';
+      try { current = localStorage.getItem('siteMode') || 'maintenance'; } catch(e){}
+
+      // Si OFF est demandé sur cette page, on renvoie vers l’accueil normal
+      if (modeFromHash === 'off' || current === 'off') {
         location.replace('accueil.html#off');
         return;
       }
-      try { localStorage.setItem('maintenance', 'on'); } catch(e){}
+
+      // Mise à jour dynamique du contenu selon le mode
+      document.addEventListener('DOMContentLoaded', function(){
+        var badge = document.querySelector('.badge');
+        var titleEl = document.querySelector('.card-body h1');
+        var descEl = document.querySelector('.card-body p');
+        var progress = document.querySelector('.progress');
+
+        if (current === 'dev') {
+          if (badge) {
+            badge.textContent = 'Développement en cours';
+            badge.style.background = 'rgba(255, 215, 0, 0.18)';
+            badge.style.borderColor = '#e2b23a';
+          }
+          if (titleEl) titleEl.textContent = '🚧 Développement en cours 🚧';
+          if (descEl) descEl.textContent = 'Nous améliorons activement le site. Certaines sections peuvent être instables.';
+          if (progress) progress.setAttribute('aria-label', 'Progression du développement');
+        } else {
+          if (badge) badge.textContent = 'Maintenance en cours';
+          if (titleEl) titleEl.textContent = '🚧 Site en maintenance 🚧';
+          if (descEl) descEl.textContent = 'Le site est temporairement indisponible. Nous revenons très vite avec des améliorations.';
+          if (progress) progress.setAttribute('aria-label', 'Progression de la maintenance');
+        }
+
+        // S’assure que le lien retour désactive le mode
+        var back = document.querySelector('a.btn[href^="accueil.html"]');
+        if (back) back.setAttribute('href', 'accueil.html#off');
+      });
     })();
   </script>
 </head>
