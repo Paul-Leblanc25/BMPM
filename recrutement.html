@@ -9,7 +9,7 @@
     *{box-sizing:border-box} html,body{margin:0;padding:0}
     body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--text);background:radial-gradient(1000px 400px at 20% 10%,#1b1b1b 10%,var(--bg1) 40%,var(--bg2) 100%);min-height:100vh}
     a{color:var(--text);text-decoration:none} img{display:block;max-width:100%;height:auto}
-    .mpm-header{position:sticky;top:0;z-index:50;background:var(--glass);backdrop-filter:blur(8px);border-bottom:1px solid rgba(212,175,55,0.25)}
+    .mpm-header{position:sticky;top:0;z-index:50;background:var(--glass);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-bottom:1px solid rgba(212,175,55,0.25)}
     .wrap{max-width:1200px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;gap:16px}
     .mpm-left,.mpm-center,.mpm-right{display:flex;align-items:center;gap:10px}
     .mpm-left{flex:1} .mpm-center{justify-content:center} .mpm-right{gap:12px}
@@ -17,7 +17,7 @@
     .mpm-logo{width:60px;height:60px;border-radius:8px;box-shadow:none}
     .mpm-main-logo{width:46px;height:auto;border-radius:10px;box-shadow:none}
     .social a{border-radius:8px;overflow:hidden;display:inline-block} .social img{width:32px;height:32px}
-    nav.mpm-nav{background:var(--glass-strong);backdrop-filter:blur(6px);border-bottom:1px solid rgba(212,175,55,0.2)}
+    nav.mpm-nav{background:var(--glass-strong);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);border-bottom:1px solid rgba(212,175,55,0.2)}
     nav.mpm-nav ul{list-style:none;margin:0;padding:0;display:flex;gap:18px;align-items:center;max-width:1200px;margin-inline:auto;padding:10px 20px}
     nav.mpm-nav>ul>li>a{padding:8px 12px;border-radius:8px} nav.mpm-nav>ul>li>a:hover{background:rgba(212,175,55,0.12)}
     .top-banner{max-width:1200px;margin:24px auto;height:420px;border:1px solid rgba(212,175,55,0.25);border-radius:14px;overflow:hidden;background:
@@ -83,6 +83,7 @@
   <nav class="mpm-nav">
     <ul>
       <li><a href="accueil.html">Accueil</a></li>
+      <li><a href="histoire.html">Histoire</a></li>
       <li><a href="effectif.html">Effectif</a></li>
       <li><a href="recrutement.html">Recrutement</a></li>
       <li><a href="galerie.html">Galerie</a></li>
