@@ -62,20 +62,7 @@
     }
     @media (max-width: 480px){ .wrap{padding:10px 12px} nav.mpm-nav ul{gap:10px;padding:8px 12px} .top-banner{height:180px} }
   </style>
-  <script>
-    // Garde siteMode: redirige vers maintenance.html si mode 'maintenance' ou 'dev'
-    (function(){
-      var hash = String(location.hash||'').toLowerCase();
-      var override = hash === '#maintenance' ? 'maintenance' : (hash === '#dev' ? 'dev' : (hash === '#off' || hash === '#') ? 'off' : null);
-      try { if (override) localStorage.setItem('siteMode', override); } catch(e){}
-      var mode = null;
-      try { mode = localStorage.getItem('siteMode'); } catch(e){}
-      mode = override || mode || 'maintenance';
-      if (mode !== 'off' && location.pathname.indexOf('/maintenance.html') === -1) {
-        location.replace('maintenance.html#' + mode);
-      }
-    })();
-  </script>
+  
 </head>
 <body>
   <header class="mpm-header">
