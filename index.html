@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Marins-Pompiers de Marseille — Clone</title>
+  <style>
+    :root {
+      --bg1: #0b0b0b;
+      --bg2: #121212;
+      --gold: #d4af37;
+      --white: #ffffff;
+      --glass: rgba(255,255,255,0.08);
+      --glass-strong: rgba(255,255,255,0.14);
+      --text: #f2f2f2;
+      --muted: #cfcfcf;
+    }
+    * { box-sizing: border-box }
+    html, body { margin:0; padding:0; }
+    body {
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color: var(--text);
+      background: radial-gradient(1000px 400px at 20% 10%, #1b1b1b 10%, var(--bg1) 40%, var(--bg2) 100%);
+      min-height: 100vh;
+    }
+    a { color: var(--text); text-decoration: none }
+    img { display:block; max-width:100%; height:auto }
+
+    /* Header */
+    .mpm-header {
+      position: sticky; top:0; z-index: 50;
+      background: var(--glass);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(212,175,55,0.25);
+    }
+    .wrap { max-width: 1200px; margin: 0 auto; padding: 14px 20px; display:flex; align-items:center; gap: 16px; }
+    .mpm-left, .mpm-center, .mpm-right { display:flex; align-items:center; gap:10px; }
+    .mpm-left { flex:1 }
+    .mpm-center { justify-content:center }
+    .mpm-right { gap:12px }
+    .mpm-left span { font-weight:600; letter-spacing:0.2px; text-shadow: 0 0 6px rgba(255,255,255,0.08); }
+    .mpm-logo { width:60px; height:60px; border-radius:8px; box-shadow: none; }
+    .mpm-main-logo { width:46px; height:auto; border-radius:10px; box-shadow: none; }
+    .social a { border-radius:8px; overflow:hidden; display:inline-block }
+    .social img { width:32px; height:32px }
+
+    .burger { margin-left:auto; font-size:24px; cursor:pointer; user-select:none; display:none }
+
+    /* Nav */
+    nav.mpm-nav { background: var(--glass-strong); backdrop-filter: blur(6px); border-bottom: 1px solid rgba(212,175,55,0.2); }
+    nav.mpm-nav ul { list-style:none; margin:0; padding:0; display:flex; gap:18px; align-items:center; max-width:1200px; margin-inline:auto; padding: 10px 20px; }
+    nav.mpm-nav > ul > li > a { padding:8px 12px; border-radius:8px; }
+    nav.mpm-nav > ul > li > a:hover { background: rgba(212,175,55,0.12); }
+    .submenu { position:relative }
+    .submenu ul {
+      position:absolute; left:0; top:calc(100% + 6px);
+      background: rgba(30,30,30,0.95);
+      border:1px solid rgba(212,175,55,0.25);
+      border-radius:10px; min-width:180px; padding:8px;
+      display:block; opacity:0; visibility:hidden; transform: translateY(6px);
+      pointer-events:none; transition: opacity .15s ease, transform .15s ease;
+    }
+    .submenu:hover ul { opacity:1; visibility:visible; transform: translateY(0); pointer-events:auto }
+    .submenu ul li a { display:block; padding:8px 10px; border-radius:6px; color: var(--muted) }
+    .submenu ul li a:hover { background: rgba(212,175,55,0.12); color: var(--white) }
+
+    /* Hero */
+    .hero { max-width:1200px; margin: 24px auto; padding: 24px; background: var(--glass); border:1px solid rgba(212,175,55,0.25); border-radius:16px; display:grid; grid-template-columns: 1fr; gap:20px }
+    .hero h1 { margin:0; font-size: clamp(24px, 4vw, 36px); color: var(--white); }
+    .hero p { margin:8px 0 16px; color: var(--muted) }
+    .cta { display:flex; gap:12px }
+    .btn { display:inline-block; padding:10px 14px; border-radius:10px; border:1px solid rgba(212,175,55,0.35); background:linear-gradient(180deg, rgba(212,175,55,0.22), rgba(212,175,55,0.1)); color: var(--white) }
+    .btn.secondary { background: rgba(255,255,255,0.06) }
+    .hero .media { border-radius:14px; overflow:hidden; border: 1px solid rgba(212,175,55,0.25) }
+    .hero-art { height: 100%; min-height: 240px; background:
+      radial-gradient(600px 280px at 70% 30%, rgba(212,175,55,0.25), transparent 60%),
+      linear-gradient(135deg, rgba(212,175,55,0.12), rgba(255,255,255,0.04) 60%),
+      repeating-linear-gradient(45deg, rgba(255,255,255,0.06) 0 6px, rgba(255,255,255,0.02) 6px 12px),
+      url('https://i.postimg.cc/Vs40wK6X/couv-BMPM-5895599a-7984-434e-ba35-8822396475db-1.webp');
+      background-size: cover; background-position: center; background-repeat: no-repeat;
+    }
+    .top-banner {
+      max-width: 1200px; margin: 24px auto; height: 420px;
+      border: 1px solid rgba(212,175,55,0.25); border-radius:14px; overflow:hidden;
+      background:
+        radial-gradient(600px 280px at 70% 30%, rgba(212,175,55,0.25), transparent 60%),
+        linear-gradient(135deg, rgba(212,175,55,0.12), rgba(255,255,255,0.04) 60%),
+        repeating-linear-gradient(45deg, rgba(255,255,255,0.06) 0 6px, rgba(255,255,255,0.02) 6px 12px),
+        url('https://i.postimg.cc/Vs40wK6X/couv-BMPM-5895599a-7984-434e-ba35-8822396475db-1.webp');
+      background-size: cover; background-position: center 52%; background-repeat: no-repeat;
+    }
+
+    /* Sections */
+    section { max-width:1200px; margin: 24px auto; padding: 0 24px }
+    section h2 { margin: 0 0 12px; font-size: 22px; color: var(--white); }
+    .grid { display:grid; grid-template-columns: repeat(3, 1fr); gap: 16px }
+    .card { background: var(--glass); border:1px solid rgba(212,175,55,0.25); border-radius:14px; overflow:hidden }
+    .card .thumb { height:160px; background-size:cover; background-position:center }
+    /* Élargir le contenu Recrutement */
+    #services .grid { grid-template-columns: 1fr }
+    .thumb.grad { background:
+      linear-gradient(135deg, rgba(212,175,55,0.18), rgba(255,255,255,0.06)),
+      repeating-linear-gradient(45deg, rgba(255,255,255,0.06) 0 6px, rgba(255,255,255,0.02) 6px 12px);
+    }
+    .card .content { padding:12px 14px }
+    .card .title { font-weight:600; margin-bottom:6px }
+    .card .meta { font-size:12px; color: var(--muted); margin-bottom:8px }
+    .card .desc { color: var(--muted); }
+
+    /* Footer */
+    footer { margin-top: 32px; padding: 24px; background: rgba(30,30,30,0.9); border-top: 1px solid rgba(212,175,55,0.25); color: var(--muted); }
+    footer .wrap { flex-wrap: wrap; justify-content: space-between }
+    footer a { color: var(--muted) }
+
+    /* Cookies */
+    .cookies { position: fixed; bottom: 16px; left: 16px; right:16px; margin-inline:auto; max-width: 680px; background: rgba(25,25,25,0.95); border:1px solid rgba(212,175,55,0.25); border-radius: 12px; padding: 12px 14px; display: none; z-index: 60 }
+    .cookies .row { display:flex; align-items:center; gap:12px; flex-wrap: wrap }
+    .cookies .row p { margin:0; color: var(--muted) }
+    .cookies .actions { margin-left:auto; display:flex; gap:10px }
+    .cookies .btn { padding:8px 12px; }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .burger { display:block }
+      nav.mpm-nav ul { flex-direction: column; gap: 10px; padding: 14px 20px }
+      nav.mpm-nav { display:none }
+      nav.mpm-nav.open { display:block }
+      .submenu:hover ul { opacity:0; visibility:hidden; pointer-events:none }
+      .submenu ul { position: static; transform:none }
+      .submenu.open ul { display:block; opacity:1; visibility:visible; pointer-events:auto }
+      .hero { grid-template-columns: 1fr; }
+      .grid { grid-template-columns: 1fr 1fr }
+    }
+    @media (max-width: 600px) {
+      .grid { grid-template-columns: 1fr }
+    }
+  </style>
+</head>
+<body>
+  <!-- HEADER -->
+  <header class="mpm-header">
+    <div class="wrap">
+      <div class="mpm-left">
+        <a href="#" target="_blank">
+          <img class="mpm-logo" src="https://i.postimg.cc/QNyHFRJq/Logo-BMPM.jpg" alt="Logo BMPM">
+        </a>
+        <span>Marins-Pompiers de Marseille</span>
+      </div>
+      <div class="mpm-center">
+        <a href="#" target="_blank">
+          <img class="mpm-main-logo" src="https://i.postimg.cc/JzG0V9nM/Logo-18-112.png" alt="Logo 18 112">
+        </a>
+      </div>
+      <div class="mpm-right social">
+        <a href="https://www.facebook.com/BataillonMarinsPompiersMarseille" target="_blank" rel="noopener noreferrer"><img src="https://i.postimg.cc/d0BnK8Ts/telechargement-1.png" alt="Facebook"></a>
+        <a href="https://www.instagram.com/marinspompiers/" target="_blank" rel="noopener noreferrer"><img src="https://i.postimg.cc/fbRVtZpK/10900021.png" alt="Instagram"></a> 
+        <a href="https://x.com/marinspompiers" target="_blank" rel="noopener noreferrer"><img src="https://i.postimg.cc/htq4xgzb/nouvelle-conception-icone-x-du-logo-twitter-2023-1017-45418.avif" alt="X"></a>
+        <a href="https://discord.gg/23hbfxa4Gb" target="_blank" rel="noopener noreferrer"><img src="https://i.postimg.cc/tRhd0dQn/discord-logo-discord-logo-transparent-discord-icon-transparent-free-free-png.webp" alt="Discord"></a>
+      </div>
+      <div class="burger" onclick="toggleNav()">☰</div>
+    </div>
+  </header>
+
+  <!-- NAV -->
+  <nav class="mpm-nav" id="nav">
+    <ul>
+      <li><a href="#accueil">Accueil</a></li>
+      
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <div class="top-banner" aria-label="Illustration d'intervention BMPM"></div>
+  <section class="hero" id="accueil">
+      <div>
+      <h1>🔱 Bataillon des Marins-Pompiers de Marseille</h1>
+        <p>
+          Protection, secours et prévention pour la ville de Marseille et son littoral.<br><br>
+          Le <strong>Bataillon des Marins-Pompiers de Marseille (BMPM)</strong> est une unité d’élite placée sous l’autorité de la <strong>Marine nationale</strong>, chargée d’assurer la sécurité, la protection et le secours des habitants de Marseille, de son port et de ses zones côtières.<br><br>
+          Chaque jour, nos marins-pompiers interviennent sur terre comme en mer pour faire face à toutes les situations d’urgence : incendies, accidents, pollutions maritimes, secours à victimes, risques industriels et bien plus encore.<br><br>
+          Grâce à une discipline militaire, une formation d’excellence et des valeurs de courage, de dévouement et d’honneur, le BMPM est reconnu comme l’un des corps de secours les plus performants au monde.<br><br>
+          Nos équipes travaillent sans relâche pour garantir la sécurité des Marseillais et la protection du patrimoine maritime et environnemental de la région.<br><br>
+          En rejoignant nos rangs, vous ferez partie d’une fraternité soudée, animée par un seul objectif : <strong>sauver, protéger et servir</strong>.
+        </p>
+        <div class="cta"></div>
+      </div>
+    
+  </section>
+
+  <!-- SERVICES & DÉMARCHES -->
+  <section id="services">
+    <h2>Recrutement</h2>
+    <div class="grid">
+      <article class="card">
+        <div class="thumb grad" style="height:220px; background-image: url('https://i.postimg.cc/fLD72k2w/Banniere-BMPM.png');"></div>
+        <div class="content">
+          <div class="title">Recrutement</div>
+          <div class="meta">Informations et candidatures</div>
+          <div class="desc">Pour intégrer le Bataillon des Marins-Pompiers de Marseille, il est obligatoire de remplir le formulaire d’inscription ci-dessous avec toutes les informations demandées. Une réponse officielle vous sera transmise directement sur le serveur Discord, alors merci de le rejoindre dès maintenant afin de pouvoir suivre l’avancement de votre candidature et être contacté par l’équipe de recrutement.<br><br>🔥 Bonne chance à tous les candidats, et peut-être à bientôt au sein du Bataillon !</div>
+          <div class="actions" style="margin-top:10px">
+            <a class="btn" target="_blank" rel="noopener noreferrer" href="https://docs.google.com/forms/d/e/1FAIpQLSdsk3M8NveWVaAhuM2ljORTp9eZVc2LfxyEW6vQHosYkxIkIA/viewform">Formulaire de recrutement</a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <h2>Contact</h2>
+    <div class="card">
+      <div class="content">
+        <p><strong>État-major du BMPM</strong><br> 9, boulevard de Strasbourg — 13233 Marseille Cedex 20</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="wrap">
+      <div>© 2025 BMPM - FRRP | Tous droits réservés | Site fictif à but rôleplay - non affilié au BMPM officiel | site créé par Asuna
+</div>
+      <div><a href="#">Accessibilité</a> · <a href="#">Plan du site</a> · <a href="#">Cookies</a></div>
+    </div>
+  </footer>
+
+  <!-- Cookies -->
+  <div class="cookies" id="cookies">
+    <div class="row">
+      <p>Ce site utilise des cookies pour améliorer votre expérience. Vous pouvez accepter ou refuser.</p>
+      <div class="actions">
+        <button class="btn" onclick="acceptCookies()">Accepter</button>
+        <button class="btn secondary" onclick="declineCookies()">Refuser</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function toggleNav(){
+      const nav = document.getElementById('nav');
+      nav.classList.toggle('open');
+    }
+    function toggleSubmenu(e){
+      // Mobile only
+      if (window.matchMedia('(max-width: 900px)').matches) {
+        e.preventDefault();
+        const li = e.target.closest('.submenu');
+        li.classList.toggle('open');
+      }
+    }
+    function acceptCookies(){
+      localStorage.setItem('cookiesAccepted', '1');
+      document.getElementById('cookies').style.display = 'none';
+    }
+    function declineCookies(){
+      localStorage.setItem('cookiesAccepted', '0');
+      document.getElementById('cookies').style.display = 'none';
+    }
+    (function(){
+      if (localStorage.getItem('cookiesAccepted') === null) {
+        document.getElementById('cookies').style.display = 'block';
+      }
+    })();
+  </script>
+</body>
+</html>
