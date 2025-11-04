@@ -56,11 +56,22 @@
     .chip{padding:8px 12px;border-radius:999px;border:1px solid rgba(212,175,55,0.35);background:linear-gradient(180deg, rgba(212,175,55,0.22), rgba(212,175,55,0.1));color:var(--white);cursor:pointer}
     .chip[aria-selected="true"]{background:rgba(212,175,55,0.35)}
     .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin-top:16px}
-    .card{position:relative;border-radius:14px;overflow:hidden;border:1px solid rgba(212,175,55,0.25);background:rgba(255,255,255,0.04)}
-    .card .thumb{aspect-ratio:16/9;background:#111;background-size:cover;background-position:center}
+    .card{position:relative;border-radius:14px;overflow:hidden;border:1px solid rgba(212,175,55,0.25);background:rgba(255,255,255,0.04);
+      transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease}
+    .card .thumb{aspect-ratio:16/9;background:#111;background-size:cover;background-position:center;
+      transition: transform 220ms ease, filter 220ms ease; will-change: transform}
+    .card:hover{transform: translateY(-2px); box-shadow: 0 12px 24px rgba(0,0,0,0.35); border-color: rgba(212,175,55,0.45)}
+    .card:hover .thumb{transform: scale(1.03); filter: brightness(1.05) saturate(1.05)}
+    .card:focus-within{transform: translateY(-2px); box-shadow: 0 12px 24px rgba(0,0,0,0.35); border-color: rgba(212,175,55,0.45)}
     .card .content{padding:10px}
     .card .title{font-weight:600}
     .badge{position:absolute;top:8px;left:8px;background:rgba(212,175,55,0.8);color:#151515;padding:6px 10px;border-radius:999px;font-size:12px;font-weight:700}
+    /* Respecte les préférences utilisateur pour réduire les animations */
+    @media (prefers-reduced-motion: reduce){
+      .card, .card .thumb{transition: none}
+      .card:hover, .card:focus-within{transform:none; box-shadow:none}
+      .card:hover .thumb{transform:none; filter:none}
+    }
 
     /* Admin panel (caché par défaut) */
     .admin{margin-top:16px;padding:16px;border:1px dashed rgba(212,175,55,0.35);border-radius:12px;background:rgba(255,255,255,0.04)}
