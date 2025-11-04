@@ -164,27 +164,14 @@
       <p class="hint">Saisir le code secret pour afficher le panneau d’ajout d’éléments.</p>
     </div>
 
-    <div class="admin" id="adminPanel" style="display:none">
-      <h2>Ajouter un élément à la galerie</h2>
-      <div class="row" style="margin-bottom:8px">
-        <select id="itemType" aria-label="Type d’élément">
-          <option value="photo">Photo</option>
-          <option value="video">Vidéo</option>
-        </select>
-        <input id="itemTitle" type="text" placeholder="Titre" aria-label="Titre" />
-        <input id="itemUrl" type="url" placeholder="URL image / vidéo (YouTube, MP4, etc.)" aria-label="URL" />
-        <input id="itemThumb" type="url" placeholder="Miniature (optionnel)" aria-label="Miniature" />
-        <button class="btn" id="addBtn">Ajouter</button>
-        <button class="btn" id="clearBtn" title="Vider la galerie locale">Vider (local)</button>
-      </div>
-      <p class="hint">Les éléments sont stockés en local (navigateur). Pour un stockage serveur, il faudra un backend.</p>
-    </div>
+    
   </section>
 
   <script>
     const ADMIN_CODE = 'BMPM-FRRP';
     const LS_KEY = 'bmpm_gallery_items_v1';
     const ADMIN_FLAG = 'bmpm_is_admin';
+    const SEED_PHOTO_URL = 'https://i.postimg.cc/cCqWGy3g/2023-MBMP-218-A-001-035.jpg';
     let items = [];
     let currentFilter = 'photo';
 
@@ -193,6 +180,16 @@
       catch(e){ items = []; }
     }
     function saveItems(){ localStorage.setItem(LS_KEY, JSON.stringify(items)); }
+
+    function ensureSeedItem(){
+      try{
+        const exists = items.some(it => it.type === 'photo' && (it.url === SEED_PHOTO_URL || it.thumb === SEED_PHOTO_URL));
+        if(!exists){
+          items.push({ id: Date.now(), type: 'photo', title: 'BMPM 2023', url: SEED_PHOTO_URL, thumb: SEED_PHOTO_URL, createdAt: new Date().toISOString() });
+          saveItems();
+        }
+      }catch(e){ /* pass */ }
+    }
 
     function toEmbedUrl(url){
       if(!url) return '';
@@ -273,8 +270,10 @@
       if(code === ADMIN_CODE){
         localStorage.setItem(ADMIN_FLAG, 'true');
         closeAdminModal();
-        document.getElementById('adminGate').style.display = 'none';
-        document.getElementById('adminPanel').style.display = 'block';
+        const gate = document.getElementById('adminGate');
+        if(gate) gate.style.display = 'none';
+        const panel = document.getElementById('adminPanel');
+        if(panel) panel.style.display = 'block';
       } else {
         alert('Code incorrect.');
       }
@@ -284,8 +283,10 @@
       const code = document.getElementById('adminCodePublic').value.trim();
       if(code === ADMIN_CODE){
         localStorage.setItem(ADMIN_FLAG, 'true');
-        document.getElementById('adminGate').style.display = 'none';
-        document.getElementById('adminPanel').style.display = 'block';
+        const gate = document.getElementById('adminGate');
+        if(gate) gate.style.display = 'none';
+        const panel = document.getElementById('adminPanel');
+        if(panel) panel.style.display = 'block';
       } else {
         alert('Code incorrect.');
       }
@@ -317,10 +318,13 @@
 
     document.addEventListener('DOMContentLoaded', () => {
       loadItems();
+      ensureSeedItem();
       render();
       document.querySelectorAll('.chip').forEach(ch => ch.addEventListener('click', () => selectFilter(ch.dataset.filter)));
-      document.getElementById('addBtn').addEventListener('click', addItem);
-      document.getElementById('clearBtn').addEventListener('click', clearAll);
+      const addBtn = document.getElementById('addBtn');
+      if(addBtn) addBtn.addEventListener('click', addItem);
+      const clearBtn = document.getElementById('clearBtn');
+      if(clearBtn) clearBtn.addEventListener('click', clearAll);
       document.getElementById('unlockBtnPublic').addEventListener('click', unlockAdminPublic);
 
       // Accès admin discret: Ctrl+Shift+A ou ?admin=1
@@ -333,12 +337,15 @@
       if(params.get('admin') === '1'){ openAdminModal(); }
       document.getElementById('adminSubmit').addEventListener('click', validateAdmin);
       document.getElementById('adminClose').addEventListener('click', closeAdminModal);
-      if(localStorage.getItem(ADMIN_FLAG) === 'true'){
-        document.getElementById('adminGate').style.display = 'none';
-        document.getElementById('adminPanel').style.display = 'block';
+      const adminOn = localStorage.getItem(ADMIN_FLAG) === 'true';
+      const gate = document.getElementById('adminGate');
+      const panel = document.getElementById('adminPanel');
+      if(adminOn){
+        if(gate) gate.style.display = 'none';
+        if(panel) panel.style.display = 'block';
       } else {
-        document.getElementById('adminGate').style.display = 'block';
-        document.getElementById('adminPanel').style.display = 'none';
+        if(gate) gate.style.display = 'block';
+        if(panel) panel.style.display = 'none';
       }
     });
   </script>
